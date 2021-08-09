@@ -20,8 +20,8 @@ router.delete('/:id', (req, res, next) => {
   // DO YOUR MAGIC
 })
 
-router.use((err, req, res, next) => { // eslint-disable-line
-  // DO YOUR MAGIC
+router.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ message: err.message })
 })
 
 module.exports = router;
