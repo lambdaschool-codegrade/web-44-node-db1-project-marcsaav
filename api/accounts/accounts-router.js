@@ -1,11 +1,24 @@
 const router = require('express').Router()
 
-router.get('/', (req, res, next) => {
-  // DO YOUR MAGIC
+const Accounts = require('./accounts-model')
+
+const { checkAccountId, checkAccountPayload, checkAccountNameUnique } = require('./accounts-middleware')
+
+router.get('/', async (req, res, next) => {
+  try {
+    const accounts = await Accounts.getAll()
+    res.status(200).json(accounts)
+  } catch(err) {
+    next(err)
+  }
 })
 
-router.get('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.get('/:id', checkAccountId, async (req, res, next) => {
+  if(req.account) {
+    res.status(200).json(req.account)
+  } else {
+    next({ message: 'Could not fetch account.'})
+  }
 })
 
 router.post('/', (req, res, next) => {
