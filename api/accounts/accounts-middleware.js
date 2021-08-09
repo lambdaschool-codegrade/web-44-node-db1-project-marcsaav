@@ -23,14 +23,17 @@ exports.checkAccountNameUnique = (req, res, next) => {
   const { name } = req.body
   const nameToUse = name.trim()
 
-  const accounts = Accounts.getAll()
-  accounts.map((account) => {
-    if(account.name === nameToUse) {
-      res.status(400).json({ message: "that name is taken" })
-    } else {
-      next()
-    }
-  })
+  Accounts.getAll()
+    .then((accounts) => {
+      accounts.map((account) => {
+        if(account.name === nameToUse) {
+          res.status(400).json({ message: "that name is taken" })
+        } else {
+          next()
+        }
+      })
+    })
+    .catch(next)
 }
 
 exports.checkAccountId = (req, res, next) => {
