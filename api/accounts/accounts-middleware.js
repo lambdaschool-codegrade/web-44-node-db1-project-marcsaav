@@ -24,5 +24,16 @@ exports.checkAccountNameUnique = (req, res, next) => {
 }
 
 exports.checkAccountId = (req, res, next) => {
-  // DO YOUR MAGIC
+  let { id } = req.params
+
+  Accounts.getById(id)
+    .then((account) => {
+      if(!account) {
+        res.status(404).json({ message: "account not found" })
+      } else {
+        req.account = account
+        next()
+      }
+    })
+    .catch(next)
 }
