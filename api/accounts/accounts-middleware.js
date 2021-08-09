@@ -20,7 +20,17 @@ exports.checkAccountPayload = (req, res, next) => {
 }
 
 exports.checkAccountNameUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+  const { name } = req.body
+  const nameToUse = name.trim()
+
+  const accounts = Accounts.getAll()
+  accounts.map((account) => {
+    if(account.name === nameToUse) {
+      res.status(400).json({ message: "that name is taken" })
+    } else {
+      next()
+    }
+  })
 }
 
 exports.checkAccountId = (req, res, next) => {
