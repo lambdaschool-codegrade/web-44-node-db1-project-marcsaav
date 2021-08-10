@@ -18,7 +18,7 @@ const updateById = (id, account) => {
 
 const deleteById = id => {
   const accountToDel = getById(id)
-  db('accounts').where('id', id).delete()
+  db('accounts').where('id', id).del()
   return accountToDel
 }
 
